@@ -1,0 +1,5 @@
+/.ssh/
+/input/
+/config/OPENAI_API_KEY
+/workspace/
+/output/
