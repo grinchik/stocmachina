@@ -8,8 +8,8 @@ const RESPONSE = JSON.parse(RESPONSE_JSON);
 
 const CONTENT = RESPONSE.choices[0].message.content.split("\n\n");
 
-const TITLE = CONTENT[0].trim();
-const KEYWORDS = CONTENT[1].trim();
+const TITLE = CONTENT[0].trim().replaceAll('"', '\\"').replaceAll('\n', ' ').replace(/\s+/g, ' ');
+const KEYWORDS = CONTENT[1].trim().replaceAll('"', '\\"').replaceAll('\n', ' ').replace(/\s+/g, ' ');
 
 console
     .log(
