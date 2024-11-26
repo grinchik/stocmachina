@@ -1,0 +1,7 @@
+{
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workdir,type=bind",
+    "workspaceFolder": "/workdir"
+}
