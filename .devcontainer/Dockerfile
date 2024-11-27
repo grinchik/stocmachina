@@ -29,6 +29,7 @@ RUN \
             --assume-yes \
             make \
             file \
+            jq \
             curl \
             exiftool \
             nodejs \

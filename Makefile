@@ -7,6 +7,7 @@ count_files = $(shell ls -1 "$(1)" | wc --lines)
 
 DEBUG_LOG_FILEPATH := debug.log
 INPUT_DIR := input
+WORKSPACE_DIR := workspace
 OUTPUT_DIR := output
 INPUT_EXT := .png
 OUTPUT_EXT := .jpg
@@ -38,6 +39,9 @@ attributing: \
 	/
 	@echo "Attributed $(call count_files,"$(OUTPUT_DIR)") of $(call count_files,"$(INPUT_DIR)")";
 	@echo "All files attributed successfully".
+
+	@jq -s '.' $(WORKSPACE_DIR)/*.response.json > "$(WORKSPACE_DIR)/responseList.json";
+	@node src/helpers/tokencalc.js "$(WORKSPACE_DIR)/responseList.json";
 
 .PHONY: clean
 clean: \
