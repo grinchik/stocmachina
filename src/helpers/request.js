@@ -8,10 +8,21 @@ const SYSTEM_PROMPT = fs.readFileSync(SYSTEM_PROMPT_FILE_PATH, 'utf-8');
 const USER_PROMPT_FILE_PATH = process.argv[3];
 const USER_PROMPT = fs.readFileSync(USER_PROMPT_FILE_PATH, 'utf-8');
 
-const IMAGE_BASE64_FILE_PATH = process.argv[4];
-const IMAGE_BASE64 = fs.readFileSync(IMAGE_BASE64_FILE_PATH, 'utf-8');
+const RESIZED_FILE_PATH = process.argv[4];
+const RESIZED_FILE = fs.readFileSync(RESIZED_FILE_PATH);
 
-const IMAGE_FILE_NAME = process.argv[5] ?? '';
+const MIME_TYPE = process.argv[5];
+
+const IMAGE_FILE_NAME = process.argv[6];
+
+const SUPPORTED_MIME_TYPE_SET = new Set([
+  'image/png',
+  'image/jpeg',
+]);
+
+if (!SUPPORTED_MIME_TYPE_SET.has(MIME_TYPE)) {
+  throw new Error(`MIME type "${MIME_TYPE}" is not supported.`);
+}
 
 function substituted (string) {
     return string
@@ -38,7 +49,7 @@ const REQUEST = {
         {
           type: "image_url",
           image_url: {
-            url: "data:image/png;base64," + IMAGE_BASE64,
+            url: `data:${MIME_TYPE};base64,` + RESIZED_FILE.toString('base64'),
             detail: "low"
           },
         },

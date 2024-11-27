@@ -28,6 +28,7 @@ RUN \
         install \
             --assume-yes \
             make \
+            file \
             curl \
             exiftool \
             nodejs \
