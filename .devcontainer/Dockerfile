@@ -27,6 +27,7 @@ RUN \
     apt-get \
         install \
             --assume-yes \
+            make \
             curl \
             exiftool \
             nodejs \

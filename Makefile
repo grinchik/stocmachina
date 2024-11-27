@@ -3,6 +3,53 @@ PORT := 2201
 .PHONY: _
 _:
 
+count_files = $(shell ls -1 "$(1)" | wc --lines)
+
+DEBUG_LOG_FILEPATH := debug.log
+INPUT_DIR := input
+OUTPUT_DIR := output
+INPUT_EXT := .png
+OUTPUT_EXT := .jpg
+
+INPUT_FILE_LIST := $(wildcard $(INPUT_DIR)/*$(INPUT_EXT))
+OUTPUT_FILE_LIST := $(INPUT_FILE_LIST:$(INPUT_DIR)/%$(INPUT_EXT)=$(OUTPUT_DIR)/%$(OUTPUT_EXT))
+
+$(OUTPUT_DIR): \
+	/
+	mkdir --parents $(OUTPUT_DIR);
+
+$(OUTPUT_DIR)/%$(OUTPUT_EXT): \
+	$(INPUT_DIR)/%$(INPUT_EXT) \
+	| $(OUTPUT_DIR) \
+	/
+	@echo "Attributed $(call count_files,"$(OUTPUT_DIR)") of $(call count_files,"$(INPUT_DIR)")";
+	@bash \
+		src/attribute.sh \
+			"$<" \
+			"$@" \
+		>> \
+			"$(DEBUG_LOG_FILEPATH)" \
+			2>&1 \
+		;
+
+.PHONY: attributing
+attributing: \
+	$(OUTPUT_FILE_LIST) \
+	/
+	@echo "Attributed $(call count_files,"$(OUTPUT_DIR)") of $(call count_files,"$(INPUT_DIR)")";
+	@echo "All files attributed successfully".
+
+.PHONY: clean
+clean: \
+	/
+	rm \
+		--recursive \
+		--force \
+		debug.log \
+		workspace \
+		output \
+		;
+
 # https://docs.docker.com/reference/cli/docker/buildx/build/
 .PHONY: build
 build: \

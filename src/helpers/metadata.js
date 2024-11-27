@@ -14,8 +14,8 @@ const KEYWORDS = CONTENT[1].trim().replaceAll('"', '\\"').replaceAll('\n', ' ').
 console
     .log(
         [
-            `-title="${TITLE}"`,
-            KEYWORDS.split(', ').map((kw) => `-keywords="${kw}"`).join(' '),
-        ].join(' ')
+            `-title=${TITLE}`,
+            KEYWORDS.split(', ').map((kw) => `-keywords=${kw}`).join('\n'),
+        ].join('\n')
     )
 ;
