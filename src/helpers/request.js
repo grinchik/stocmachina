@@ -11,20 +11,28 @@ const USER_PROMPT = fs.readFileSync(USER_PROMPT_FILE_PATH, 'utf-8');
 const IMAGE_BASE64_FILE_PATH = process.argv[4];
 const IMAGE_BASE64 = fs.readFileSync(IMAGE_BASE64_FILE_PATH, 'utf-8');
 
+const IMAGE_FILE_NAME = process.argv[5] ?? '';
+
+function substituted (string) {
+    return string
+        .replaceAll('%IMAGE_FILE_NAME%', IMAGE_FILE_NAME)
+        ;
+}
+
 // https://platform.openai.com/docs/guides/chat-completions/overview
 const REQUEST = {
   model: "gpt-4o-mini",
   messages: [
     {
       "role": "system",
-      "content": SYSTEM_PROMPT,
+      "content": substituted(SYSTEM_PROMPT),
     },
     {
       role: "user",
       content: [
         {
           type: "text",
-          text: USER_PROMPT,
+          text: substituted(USER_PROMPT),
         },
         // https://platform.openai.com/docs/guides/vision
         {
